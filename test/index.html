@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+        <script>
+                function myMap() {
+                var mapOptions = {
+                    center: new google.maps.LatLng(51.5, -0.12),
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                }
+                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                }
+                </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpN1cJAPw-IOvG3iFGz5vYc_TwKcX7ti0&libraries=places&callback=myMap"></script>
+</head>
+<body>
+    <section  id="map-container">
+        <div id="map" style="width:400px;height:400px;background:yellow"></div>
+      </section>
+</body>
+</html>
