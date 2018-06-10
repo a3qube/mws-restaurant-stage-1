@@ -1,0 +1,5 @@
+- [ ]  Make the restaurant page responsive
+- [ ]  Make the reviews in the restaurant app better
+- [ ]  Images to be rendered as per the request
+- [ ]  Accessibility
+- [ ]  SW integration
