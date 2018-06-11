@@ -138,12 +138,35 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+ const pictures = {
+    "desktop": { "folder": "images/desktop_tiles", "suffix": "-436x327.jpg"},
+    "mobile": { "folder":"images/mobile_tiles",  "suffix":"-640x450.jpg"},
+    "high": { "folder":"images/high_res",  "suffix":"-940x707.jpg"}
+  }
+
+  const desktopDetails = pictures.desktop;
+  const mobileDetails = pictures.mobile;
+  const highDetails = pictures.high;
+
+  const picture = document.createElement('picture');
+
+  const src1 = document.createElement('source');
+  src1.setAttribute("media" ,"(max-width: 650px)");
+  src1.setAttribute("srcset", DBHelper.imageUrlForRestaurant(restaurant,desktopDetails));
+  picture.append(src1);
+
+  const src2 = document.createElement('source');
+  src2.setAttribute("media" ,"(min-width: 650px) and (max-width: 900px)");
+  src2.setAttribute("srcset", DBHelper.imageUrlForRestaurant(restaurant,mobileDetails));
+  picture.append(src2);
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt = "Restaurant Image - "+restaurant.name;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  image.src = DBHelper.imageUrlForRestaurant(restaurant,desktopDetails);
+  picture.append(image);
 
+  li.append(picture);
   const name = document.createElement('h2');
   name.innerHTML = "  "+restaurant.name;
   name.setAttribute("class", "fontawesome-food");

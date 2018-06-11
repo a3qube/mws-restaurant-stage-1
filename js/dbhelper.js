@@ -12,6 +12,15 @@ class DBHelper {
     return `http://localhost:${port}/data/restaurants.json`;
   }
 
+  static get desktop_res(){
+    return "desktop";
+  }
+  static get mobile_res(){
+    return "mobile";
+  }
+  static get high_res(){
+    return "high";
+  }
   /**
    * Fetch all restaurants.
    */
@@ -22,7 +31,8 @@ class DBHelper {
       if (xhr.status === 200) { // Got a success response from server!
         const json = JSON.parse(xhr.responseText);
         const restaurants = json.restaurants;
-        callback(null, restaurants);
+        const pictures = json.pictures;
+        callback(null, restaurants, pictures);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);
@@ -149,8 +159,8 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+  static imageUrlForRestaurant(restaurant, resolution={ "folder":"images/high_res",  "suffix":"-940x707.jpg"}) {
+    return (`${resolution.folder}/${restaurant.photograph}${resolution.suffix}`);
   }
 
   /**
@@ -167,4 +177,17 @@ class DBHelper {
     return marker;
   }
 
+  /*
+   * get the proper-file prefix
+   *
+   */
+  static getFileSuffix(resolution, callback) {
+    DBHelper.fetchRestaurants((error, restaurants, pictures) => {
+      if (error) {
+        callback(error, null);
+      } else {
+          callback(pictures[resolution]);
+      }
+    });
+  }
 }
