@@ -14,11 +14,21 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
 }
+
+window.addEventListener("load", function(event) {
+    this.fetchRestaurantFromURL((error, restaurant) => {
+      if (error) { // Got an error!
+        console.error(error);
+      } else {
+      fillRestaurantHTML();
+      this.fillBreadcrumb();
+      }
+    });
+}.bind(this));
 
 /**
  * Get current restaurant from page URL.
@@ -39,7 +49,6 @@ fetchRestaurantFromURL = (callback) => {
         console.error(error);
         return;
       }
-      fillRestaurantHTML();
       callback(null, restaurant)
     });
   }

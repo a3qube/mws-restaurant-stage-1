@@ -80,8 +80,13 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
+//  updateRestaurants();
 }
+
+window.addEventListener("load", function(event) {
+  // if(!window.initMap)
+  this.updateRestaurants();
+}.bind(this));
 
 /**
  * Update page and map for current restaurants.
@@ -186,7 +191,8 @@ createRestaurantHTML = (restaurant) => {
   li.append(div);
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
-  more.onclick = () => {window.location = DBHelper.urlForRestaurant(restaurant);};
+  more.onclick = () => {
+    window.location = DBHelper.urlForRestaurant(restaurant);};
   // more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
@@ -205,4 +211,21 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+
+/*
+Register Service worker
+*/
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(function(registration) {
+          console.log('Service Worker Registered');
+    })
+    .catch( error => console.log(error));
+
+  navigator.serviceWorker.ready.then(function(registration) {
+     console.log('Service Worker Ready');
+  })
+  .catch( error => console.log(error));
 }

@@ -1,5 +1,7 @@
-- [ ]  Make the restaurant page responsive
-- [ ]  Make the reviews in the restaurant app better
-- [ ]  Images to be rendered as per the request
+- [X]  Make the restaurant page responsive
+- [X]  Make the reviews in the restaurant app better
+- [X]  Images to be rendered as per the request
 - [ ]  Accessibility
-- [ ]  SW integration
+- [X]  SW integration
+- [X]  Caching of URLs
+- [ ]  Cache Images with IDB
