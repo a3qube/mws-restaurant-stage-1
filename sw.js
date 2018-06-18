@@ -1,4 +1,4 @@
-const version = "0.6.01";
+const version = "5";
 const cacheName = `restuarant-${version}`;
 self.addEventListener('install', e => {
   const timeStamp = Date.now();
@@ -12,26 +12,28 @@ self.addEventListener('install', e => {
     `data/restaurants.json`,
     '/restaurant.html'
   ];
-  console.log('arr=', cacheArr);
   e.waitUntil(
     caches.open(cacheName).then(cache => {
-      return cache.addAll(cacheArr)
-          .then(() => self.skipWaiting());
+      return cache.addAll(cacheArr);
     })
   );
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys()
+    .then(nameArray => nameArray
+      .filter(keyName => keyName.startsWith('restuarant') && keyName !== cacheName)
+      .map(name => caches.delete(name))
+    ).catch( error => console.log('cache delete:',error))
+  );
 });
 
 self.addEventListener('fetch', event => {
-  console.log(event.request.url);
   event.respondWith(
     caches.open(cacheName)
       .then(cache => cache.match(event.request, {ignoreSearch: true}))
       .then(response => {
-        response ? console.log('this is from cache') : console.log('will fetch');
       return response || fetch(event.request);
     })
   );
