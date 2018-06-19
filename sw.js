@@ -1,4 +1,4 @@
-const version = "9";
+const version = "10";
 const cacheName = `restuarant-${version}`;
 self.addEventListener('install', e => {
   const timeStamp = Date.now();

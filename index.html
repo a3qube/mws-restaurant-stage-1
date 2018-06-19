@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
@@ -28,10 +28,11 @@
           <div style="width:100%">
             <label>Search</label>
           </div>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-            <option value="all">All Neighborhoods</option>
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()"
+          aria-label="Select Neighbourhood">
+            <option id="label" value="all">All Neighbourhood</option>
           </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Select cuisine">
             <option value="all">All Cuisines</option>
           </select>
         </div>
