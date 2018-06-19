@@ -1,4 +1,4 @@
-const version = "5";
+const version = "9";
 const cacheName = `restuarant-${version}`;
 self.addEventListener('install', e => {
   const timeStamp = Date.now();
@@ -30,6 +30,16 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+
+  var requestUrl = new URL(event.request.url);
+
+  if (requestUrl.origin === location.origin) {
+    if (requestUrl.pathname.startsWith('/images/')) {
+      event.respondWith(servePhoto(event.request));
+      return;
+    }
+  }
+
   event.respondWith(
     caches.open(cacheName)
       .then(cache => cache.match(event.request, {ignoreSearch: true}))
@@ -38,3 +48,18 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+
+function servePhoto(request) {
+  var storageUrl = request.url.replace(/-\d+px\.jpg$/, '');
+
+  return caches.open(cacheName).then(function(cache) {
+    return cache.match(storageUrl).then(function(response) {
+      if (response) return response;
+
+      return fetch(request).then(function(networkResponse) {
+        cache.put(storageUrl, networkResponse.clone());
+        return networkResponse;
+      });
+    });
+  });
+}
