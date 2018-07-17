@@ -5,3 +5,4 @@
 - [X]  SW integration
 - [X]  Caching of URLs
 - [ ]  Cache Images with IDB
+<!--  -->

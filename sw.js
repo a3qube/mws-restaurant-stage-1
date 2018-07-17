@@ -1,5 +1,10 @@
-const version = "10";
+
+importScripts('./js/idbCaching.js');
+importScripts('./js/idb.js');
+
+const version = 6;
 const cacheName = `restuarant-${version}`;
+
 self.addEventListener('install', e => {
   const timeStamp = Date.now();
   const cacheArr = [
@@ -21,11 +26,15 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys()
-    .then(nameArray => nameArray
+    createDB(`data/restaurants.json`, cacheName).then(() => {
+      conosle.log('idb done');
+    }).catch(() => {
+      caches.keys()
+      .then(nameArray => nameArray
       .filter(keyName => keyName.startsWith('restuarant') && keyName !== cacheName)
-      .map(name => caches.delete(name))
-    ).catch( error => console.log('cache delete:',error))
+      .map(name => caches.delete(name)))
+      .catch( error => console.log('cache delete:',error));
+    })
   );
 });
 
