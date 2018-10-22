@@ -166,6 +166,8 @@ let getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
+
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -196,3 +198,82 @@ window.addEventListener('load', function(event) {
     });
 }.bind(this));
 
+function handleAddReview() {
+  var modal = document.getElementById('myModal');
+  modal.style.display = "block";
+  Array.from(document.getElementsByClassName("fa")).forEach(element => element.style.color = "");
+}
+
+function handleDialogClose() {
+  var modal = document.getElementById('myModal');
+  modal.style.display = "none";
+  this.rating = 0;
+}
+
+const ratingClass = {
+  1: "one",
+  2: "two",
+  3: "three",
+  4: "four",
+  5: "five",
+};
+// let rating = 0;
+function onIncrRating(e) {
+  if (!this.rating) {
+    this.rating = 0;
+  }
+
+  if(this.rating < 5){
+    this.rating++;
+    document.getElementsByClassName(ratingClass[this.rating])[0].style.color = "orange";
+    document.getElementsByClassName("incrBtn")[0].disabled = this.rating === 5;
+    document.getElementsByClassName("decrBtn")[0].disabled = this.rating === 0;
+  }
+}
+
+function onDecrRating(e) {
+  if (!this.rating) {
+    this.rating = 0;
+  }
+  if(this.rating > 0){
+    document.getElementsByClassName(ratingClass[this.rating])[0].style.color = "";
+    this.rating--;
+    document.getElementsByClassName("decrBtn")[0].disabled = this.rating === 0;
+    document.getElementsByClassName("incrBtn")[0].disabled = this.rating === 5;
+  }
+}
+
+function onReviewSubmit(e) {
+  const comments = document.getElementById('reviewComments').value;
+  const id = 1;
+  const {rating} = this;
+  const name = "Test reviewer";
+  const update = {
+    id,
+    name,
+    rating,
+    comments,
+  };
+  this.submitReviews(update);
+}
+
+function submitReviews(data) {
+  //Save to the DB
+  const { id, name, rating, comments}= data;
+  let payload = {
+    "restaurant_id": id,
+    "name": name,
+    "rating": rating,
+    "comments":comments,
+  };
+
+  fetch("http://localhost:1337/reviews/",
+  {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+    //Save to IDB
+    DBHelper.addReview(payload, () => {
+    console.log('reviews inserted successfully');
+  });
+}

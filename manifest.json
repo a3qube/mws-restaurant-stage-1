@@ -1,0 +1,37 @@
+
+The Web App Manifest
+Matt Gaunt
+By Matt Gaunt
+Matt is a contributor to WebFundamentals
+
+Paul Kinlan
+By Paul Kinlan
+Paul is a Developer Advocate
+The web app manifest is a simple JSON file that tells the browser about your web application and how it should behave when 'installed' on the users mobile device or desktop. Having a manifest is required by Chrome to show the Add to Home Screen prompt.
+
+A typical manifest file includes information about the app name, icons it should use, the start_url it should start at when launched, and more.
+
+Create the manifest
+A complete manifest.json file for a progressive web app.
+
+{
+  "short_name": "Maps",
+  "name": "Google Maps",
+  "icons": [
+    {
+      "src": "/images/icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/maps/?source=pwa",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/maps/",
+  "theme_color": "#3367D6"
+}

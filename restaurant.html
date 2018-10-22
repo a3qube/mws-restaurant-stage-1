@@ -4,8 +4,12 @@
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Font Awesome Icon Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" href="css/reviews.css" type="text/css">
+
     <!-- Beginning scripts -->
     <!-- IDB caching -->
   <script type="application/javascript" src="js/idbCaching.js"></script>
@@ -49,6 +53,8 @@
         <div role="application" id="map" class="RestInfo_map" ></div>
       </section>
       <!-- End map -->
+
+
       <!-- Beginning restaurant -->
       <section id="restaurant-container">
         <h2 id="restaurant-name"></h2>
@@ -62,12 +68,49 @@
       <!-- end restaurant -->
       <!-- Beginning reviews -->
       <section id="reviews-container">
+        <input type="button" onclick="handleAddReview()" value="Add review"></input>
         <ul id="reviews-list"></ul>
       </section>
     <!-- End reviews -->
   </main>
   <!-- End main -->
+<!-- Modal content -->
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button class="close" onclick="handleDialogClose()">
+      <span >&times;</span>
+      </button>
+      <h2>Add reviews for &lt;resturant Name&gt;</h2>
+    </div>
+    <form>
+        <label for="ratingInput">Rating</label>
+        <fieldset>
+          <span class="fa fa-star one"></span>
+          <span class="fa fa-star  two"></span>
+          <span class="fa fa-star  three"></span>
+          <span class="fa fa-star four"></span>
+          <span class="fa fa-star five"></span>
+          <div>
+            <input class="incrBtn" type="button" onclick="onIncrRating()" value="+1" >
+            </input>
+            <input class="decrBtn" type="button" onclick="onDecrRating()" value="-1">
+            </input>
+          </div>
+        </fieldset>
+        <label for="comments">Review comments</label>
+        <textarea id="reviewComments"> </textarea>
+    </form>
+    <div class="modal-footer">
+      <input type="submit" value="Add review" onclick="onReviewSubmit()"/>
+    </div>
+  </div>
+
+</div>
   <!-- Beginning footer -->
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.

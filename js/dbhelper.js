@@ -4,24 +4,24 @@
 class DBHelper {
 
   static get cacheName(){
-    const version = 6;
-    return `restuarant-${version}`;
+    const version = 3;// should be same as the cache version in sw.js
+    return `restaurant-${version}`;
   }
-  static get dataURL(){
-    return  `data/restaurants.json`;
-  }
+  // static get dataURL(){
+  //   return  `data/restaurants.json`;
+  // }
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
     const port = 1337; // Change this to your server port
-    return `http://192.168.1.71:${port}/restaurants`;
+    return `http://localhost:${port}/restaurants`;
   }
 
   static getDB_REST_URL(id) {
     const port = 1337; // Change this to your server port
-    return `http://192.168.1.71:${port}/restaurants/${id}`;
+    return `http://localhost:${port}/restaurants/${id}`;
   }
 
   static get desktop_res(){
@@ -36,10 +36,13 @@ class DBHelper {
   /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
-    self.getAllData().then(data => {
-      callback(null,data,null);
-    });
+  static async fetchRestaurants(callback) {
+      const data = await self.getAllData();
+      // .then(data => {
+        callback(null,data,null);
+      // });
+      // .catch(() => {
+      // });
   }
 
   /**
@@ -193,6 +196,15 @@ class DBHelper {
     );
     return marker;
   }
+
+  /**
+   *
+   * Add review
+   */
+
+   static addReview(data, callBack){
+    self.addReview(data, callBack);
+   }
 
   /*
    * get the proper-file prefix

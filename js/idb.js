@@ -200,7 +200,7 @@
     'abort'
   ]);
 
-  function UpgradeDB(db, oldVersion, transaction) {
+function UpgradeDB(db, oldVersion, transaction) {
     this._db = db;
     this.oldVersion = oldVersion;
     this.transaction = new Transaction(transaction);
