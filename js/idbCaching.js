@@ -121,11 +121,11 @@ self.getDatabyNeighbourhood = function(nh) {
  };
 
 self.addReview =  function(data, callBack){
-    self.getDBPromise()
+    return self.getDBPromise()
     .then((db) => {
         let tx = db.transaction([detailsObjectStoreName], 'readwrite');
         let store = tx.objectStore(detailsObjectStoreName);
-        store.openCursor(IDBKeyRange.only(data.restaurant_id)).then(cursor=> {
+        return store.openCursor(IDBKeyRange.only(data.restaurant_id)).then(cursor=> {
            const { value } = cursor;
             value.reviews.push(data);
             return cursor.update(value);

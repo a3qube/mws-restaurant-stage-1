@@ -203,7 +203,7 @@ class DBHelper {
    */
 
    static addReview(data, callBack){
-    self.addReview(data, callBack);
+    return self.addReview(data, callBack);
    }
 
   /*

@@ -273,7 +273,9 @@ function submitReviews(data) {
     body: JSON.stringify(payload)
   });
     //Save to IDB
-    DBHelper.addReview(payload, () => {
+    DBHelper.addReview(payload).then(() => {
     console.log('reviews inserted successfully');
+    handleDialogClose();
+    window.location.reload();
   });
 }

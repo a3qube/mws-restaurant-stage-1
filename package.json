@@ -45,5 +45,12 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-responsive-images": "^1.10.1"
   }
 }
