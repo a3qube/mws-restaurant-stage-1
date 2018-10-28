@@ -186,15 +186,23 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-  static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
+  static mapMarkerForRestaurant(restaurants, imgElement) {
+    const center = '40.722216,-73.987501';
+    const zoom = 11;
+    const markers =  Array.isArray(restaurants) ?
+                      restaurants.map(r => `markers=label:H|${r.latlng.lat},${r.latlng.lng}`).join('&') :
+                      `markers=label:H|${restaurants.latlng.lat},${restaurants  .latlng.lng}`;
+    const apiKey = 'AIzaSyDpN1cJAPw-IOvG3iFGz5vYc_TwKcX7ti0';
+    const url = `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=700x228&scale=2&${markers}&key=${apiKey}`
+    imgElement.src = url;
+    // const marker = new google.maps.Marker({
+    //   position: restaurant.latlng,
+    //   title: restaurant.name,
+    //   url: DBHelper.urlForRestaurant(restaurant),
+    //   map: map,
+    //   animation: google.maps.Animation.DROP}
+    // );
+    // return marker;
   }
 
   /**

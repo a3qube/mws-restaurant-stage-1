@@ -6,7 +6,6 @@ async function fetchRestaurantsData(fetchFromIDB) {
         return store.getAll();
     }
     try{
-        console.trace('fetching the data for the restaurants');
         const restURL = 'http://localhost:1337/restaurants';
         // const reiviewsURL = 'http://localhost:1337/reviews';// As this is limited to 30 changing the end point to per hotel
         // const response = await Promise.all([fetch(restURL),fetch(reiviewsURL)]);

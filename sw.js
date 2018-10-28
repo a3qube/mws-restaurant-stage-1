@@ -16,6 +16,8 @@
       `/js/main.js`,
       `/js/restaurant_info.js`,
       `/js/dbhelper.js`,
+      `/js/idbCaching.js`,
+      `/js/idb.js`,
       `/css/styles.css`,
       '/restaurant.html',
     ];
