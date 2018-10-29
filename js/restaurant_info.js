@@ -128,7 +128,7 @@ let createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = new Date(review.updatedAt).toLocaleDateString();
   date.setAttribute('style', 'font-weight:bold;');
   li.appendChild(date);
 
@@ -210,6 +210,25 @@ function handleAddReview() {
   Array.from(document.getElementsByClassName("fa")).forEach(element => element.style.color = "");
 }
 
+function handleAddToFavorite() {
+  const id = getParameterByName('id');
+  const is_favorite = true;
+  if (navigator.onLine) {
+    fetch(`http://localhost:1337/restaurants/${id}/?is_favorite=${is_favorite}`,
+    {
+      method: "PUT",
+    });
+  } else {
+    alert('You are offline, Data will be updated when you back online');
+  }
+
+    //Save to IDB
+    self.markFavourite(+id, is_favorite).then(() => {
+      console.log('favourites updated successfully');
+      handleDialogClose();
+      window.location.reload();
+    });
+}
 function handleDialogClose() {
   var modal = document.getElementById('myModal');
   modal.style.display = "none";
@@ -251,7 +270,7 @@ function onDecrRating(e) {
 
 function onReviewSubmit(e) {
   const comments = document.getElementById('reviewComments').value;
-  const id = 1;
+  const id = getParameterByName('id');
   const {rating} = this;
   const name = "Test reviewer";
   const update = {
@@ -273,11 +292,16 @@ function submitReviews(data) {
     "comments":comments,
   };
 
-  fetch("http://localhost:1337/reviews/",
-  {
-    method: "POST",
-    body: JSON.stringify(payload)
-  });
+  if(navigator.onLine) {
+    fetch("http://localhost:1337/reviews/",
+    {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  } else {
+    alert('You are offline, Data will be updated when you back online');
+  }
+
     //Save to IDB
     DBHelper.addReview(payload).then(() => {
     console.log('reviews inserted successfully');
@@ -285,3 +309,8 @@ function submitReviews(data) {
     window.location.reload();
   });
 }
+
+window.addEventListener('online', function(e) {
+  console.log('Data is persisted');
+  self.updateDirtyChanges();
+});

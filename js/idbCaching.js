@@ -7,21 +7,8 @@ async function fetchRestaurantsData(fetchFromIDB) {
     }
     try{
         const restURL = 'http://localhost:1337/restaurants';
-        // const reiviewsURL = 'http://localhost:1337/reviews';// As this is limited to 30 changing the end point to per hotel
-        // const response = await Promise.all([fetch(restURL),fetch(reiviewsURL)]);
-        // const data = await Promise.all([response[0].json(), response[1].json()]);
         const response = await fetch(restURL);
         return await response.json();
-        // data[0].forEach(element => {
-        //     element['reviews'] = data[1].map(({ restaurant_id, rating, comments, name, updatedAt: date }) => {
-        //         const obj = { restaurant_id, rating, comments, name, date };
-        //         if(restaurant_id === element.id){
-        //             return obj;
-        //         }
-        //     })
-        //     .filter(e => !!e);
-        // });
-        // return data;
     } catch(error){
         console.log('error in fetchRestaurantsData', error)
     }
@@ -34,11 +21,11 @@ async function fetchRestaurantReviews(id) {
         const reiviewsURL = `http://localhost:1337/reviews/?restaurant_id=${id}`;
         const response = await fetch(reiviewsURL);
         return response.json();
-}
+};
+
 self.getDBPromise = () => {
     const DBVersion = 1;
-    const idbName ='restaurant-reviews_dataBase';
-
+    const idbName ='restaurants-data';
     return self.idb.open(idbName, DBVersion, (upgradeDb) => {
         console.log(upgradeDb.oldVersion);
         // upgradeDb.oldVersion = 0;
@@ -54,6 +41,30 @@ self.getDBPromise = () => {
           }
 
     })
+}
+
+self.updateDirtyChanges = () => {
+   return this.getAllData(true).then( data => {
+
+        return Promise.all(data.map( r => {
+            let fetches = [fetch(`http://localhost:1337/restaurants/${r.id}/?is_favorite=${r.is_favorite}`,
+                                    {
+                                    method: "PUT",
+                                    })
+                        ];
+            if (r.reviews) {
+                r.reviews.forEach( re => {
+                    fetches.push(fetch("http://localhost:1337/reviews/",
+                    {
+                        method: "POST",
+                        body: JSON.stringify(re)
+                    }));
+                });
+            }
+            return Promise.all(fetches);
+        }
+        ))
+    });
 }
 self.createDB = function() {
     //check for support
@@ -77,9 +88,9 @@ self.createDB = function() {
   };
 
 
-self.getAllData = function() {
+self.getAllData = function(isFromIdb) {
 
-     return this.fetchRestaurantsData();
+     return this.fetchRestaurantsData(isFromIdb);
 };
 self.getDatabyNeighbourhood = function(nh) {
 
@@ -124,16 +135,36 @@ self.addReview =  function(data, callBack){
     .then((db) => {
         let tx = db.transaction([detailsObjectStoreName], 'readwrite');
         let store = tx.objectStore(detailsObjectStoreName);
-        return store.openCursor(IDBKeyRange.only(data.restaurant_id)).then(cursor=> {
+        return store.openCursor(IDBKeyRange.only(+data.restaurant_id)).then(cursor=> {
            const { value } = cursor;
-            value.reviews.push(data);
-            return cursor.update(value);
+           let reviews = value.reviews || [];
+           reviews.push(data);
+           value[reviews] = reviews;
+           return cursor.update(value);
         })
     .then(data => {
             console.log('review is aded to IDB');
         })
         .catch(e => {
-            console.log('Error while adding review to IDB. Please check after some time');
+            console.log('Error while adding review to IDB. Please check after some time', e);
+        });
+    });
+ };
+self.markFavourite =  function(id, is_favorite){
+    return self.getDBPromise()
+    .then((db) => {
+        let tx = db.transaction([detailsObjectStoreName], 'readwrite');
+        let store = tx.objectStore(detailsObjectStoreName);
+        return store.openCursor(IDBKeyRange.only(+  id)).then(cursor=> {
+           const { value } = cursor;
+            value.is_favorite = is_favorite === 'true';
+            return cursor.update(value);
+        })
+    .then(data => {
+            console.log('Resturant marked as favorite');
+        })
+        .catch(e => {
+            console.log('Error while trying to update the favorites. Please check after some time');
         });
     });
  };

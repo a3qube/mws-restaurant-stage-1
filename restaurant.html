@@ -20,10 +20,6 @@
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
-  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpN1cJAPw-IOvG3iFGz5vYc_TwKcX7ti0&libraries=places&callback=initMap"></script> -->
-
-  <!-- End scripts -->
 
   <title>Restaurant Info</title>
 </head>
@@ -51,7 +47,7 @@
     <!-- Beginning map -->
       <section  id="map-container">
         <div role="application" id="map" class="RestInfo_map" >
-          <img id="staticMapRest" src="" alt="maps and locations"/>
+          <img id="staticMapRest" style="height: 100%" src="" alt="maps and locations"/>
         </div>
       </section>
       <!-- End map -->
@@ -71,6 +67,7 @@
       <!-- Beginning reviews -->
       <section id="reviews-container">
         <input type="button" onclick="handleAddReview()" value="Add review"></input>
+        <input type="button" onclick="handleAddToFavorite()" value="I love this resturant"></input>
         <ul id="reviews-list"></ul>
       </section>
     <!-- End reviews -->
@@ -87,7 +84,7 @@
       <button class="close" onclick="handleDialogClose()">
       <span >&times;</span>
       </button>
-      <h2>Add reviews for &lt;resturant Name&gt;</h2>
+      <h2>Add reviews</h2>
     </div>
     <form>
         <label for="ratingInput">Rating</label>

@@ -1,17 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
 
-@import url(http://weloveiconfonts.com/api/?family=fontawesome|typicons);
-
-/* fontawesome */
-[class*="fontawesome-"]:before {
-  font-family: 'FontAwesome', sans-serif;
-}
-
-/* typicons */
-[class*="typicons-"]:before {
-  font-family: 'Typicons', sans-serif;
-}
 
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;

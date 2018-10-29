@@ -195,14 +195,6 @@ class DBHelper {
     const apiKey = 'AIzaSyDpN1cJAPw-IOvG3iFGz5vYc_TwKcX7ti0';
     const url = `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=700x228&scale=2&${markers}&key=${apiKey}`
     imgElement.src = url;
-    // const marker = new google.maps.Marker({
-    //   position: restaurant.latlng,
-    //   title: restaurant.name,
-    //   url: DBHelper.urlForRestaurant(restaurant),
-    //   map: map,
-    //   animation: google.maps.Animation.DROP}
-    // );
-    // return marker;
   }
 
   /**

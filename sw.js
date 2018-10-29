@@ -1,9 +1,8 @@
-
   importScripts('./js/idbCaching.js');
   importScripts('./js/idb.js');
 
   const version = 1;
-  const cacheName = `restaurant-${version}`;
+  const cacheName = `restaurantReviews-${version}`;
 
 
   self.addEventListener('install', e => {
@@ -19,6 +18,7 @@
       `/js/idbCaching.js`,
       `/js/idb.js`,
       `/css/styles.css`,
+      `/css/reviews.css`,
       '/restaurant.html',
     ];
     e.waitUntil(
@@ -27,7 +27,6 @@
       })
     );
   });
-
 
   self.addEventListener('activate', event => {
       event.waitUntil(

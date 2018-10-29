@@ -191,7 +191,7 @@ let createRestaurantHTML = (restaurant) => {
   li.append(picture);
   const name = document.createElement('h2');
   name.innerHTML = '  '+restaurant.name;
-  name.setAttribute('class', 'fontawesome-food');
+  // name.setAttribute('class', 'fontawesome-food');
   // name.class = 'fontawesome-food';
   li.append(name);
   const div = document.createElement('div');
@@ -258,3 +258,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   btnAdd.style.display = 'block';
 });
 
+window.addEventListener('online', function(e) {
+  console.log('Data persisted');
+  self.updateDirtyChanges();
+});
